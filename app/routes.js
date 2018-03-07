@@ -1,8 +1,10 @@
 const jwt = require("jwt-simple");
+const cors = require('cors');
+
 var configAuth = require("../config/auth");
 
-module.exports = function(app, passport) {
-  app.use(function(req, res, next) {
+module.exports = function (app, passport) {
+  app.use(function (req, res, next) {
     if (req.user && req.cookies && !req.cookies["jwt"]) {
       const payload = {
         userId: req.user._id.toString()
@@ -30,8 +32,13 @@ module.exports = function(app, passport) {
   // normal routes ===============================================================
 
   // show the home page (will also have our login links)
-  app.get("/", function(req, res) {
+  app.get("/", function (req, res) {
     res.render("index.ejs");
+  });
+
+  app.get("/user/token/:jwt", cors(), passport.authenticate("jwt"), isLoggedInAPI, function (req, res) {
+    console.log(req.params.jwt);
+    res.json(req.user);
   });
 
   // PROFILE SECTION =========================
@@ -39,7 +46,7 @@ module.exports = function(app, passport) {
     "/profile",
     passport.authenticate("jwt", { failureRedirect: "/" }),
     isLoggedIn,
-    function(req, res) {
+    function (req, res) {
       //   console.log(req.cookies);
       res.render("profile.ejs", {
         user: req.user,
@@ -49,7 +56,7 @@ module.exports = function(app, passport) {
   );
 
   // LOGOUT ==============================
-  app.get("/logout", function(req, res) {
+  app.get("/logout", function (req, res) {
     req.logout();
     req.token = null;
     res.header("Authorization", null);
@@ -64,7 +71,7 @@ module.exports = function(app, passport) {
   // locally --------------------------------
   // LOGIN ===============================
   // show the login form
-  app.get("/login", function(req, res) {
+  app.get("/login", function (req, res) {
     res.render("login.ejs", { message: req.flash("loginMessage") });
   });
 
@@ -81,7 +88,7 @@ module.exports = function(app, passport) {
 
   // SIGNUP =================================
   // show the signup form
-  app.get("/signup", function(req, res) {
+  app.get("/signup", function (req, res) {
     res.render("signup.ejs", { message: req.flash("signupMessage") });
   });
 
@@ -153,7 +160,7 @@ module.exports = function(app, passport) {
   // =============================================================================
 
   // locally --------------------------------
-  app.get("/connect/local", function(req, res) {
+  app.get("/connect/local", function (req, res) {
     res.render("connect-local.ejs", { message: req.flash("loginMessage") });
   });
   app.post(
@@ -226,38 +233,38 @@ module.exports = function(app, passport) {
   // user account will stay active in case they want to reconnect in the future
 
   // local -----------------------------------
-  app.get("/unlink/local", isLoggedIn, function(req, res) {
+  app.get("/unlink/local", isLoggedIn, function (req, res) {
     var user = req.user;
     user.local.email = undefined;
     user.local.password = undefined;
-    user.save(function(err) {
+    user.save(function (err) {
       res.redirect("/profile");
     });
   });
 
   // facebook -------------------------------
-  app.get("/unlink/facebook", isLoggedIn, function(req, res) {
+  app.get("/unlink/facebook", isLoggedIn, function (req, res) {
     var user = req.user;
     user.facebook.token = undefined;
-    user.save(function(err) {
+    user.save(function (err) {
       res.redirect("/profile");
     });
   });
 
   // twitter --------------------------------
-  app.get("/unlink/twitter", isLoggedIn, function(req, res) {
+  app.get("/unlink/twitter", isLoggedIn, function (req, res) {
     var user = req.user;
     user.twitter.token = undefined;
-    user.save(function(err) {
+    user.save(function (err) {
       res.redirect("/profile");
     });
   });
 
   // google ---------------------------------
-  app.get("/unlink/google", isLoggedIn, function(req, res) {
+  app.get("/unlink/google", isLoggedIn, function (req, res) {
     var user = req.user;
     user.google.token = undefined;
-    user.save(function(err) {
+    user.save(function (err) {
       res.redirect("/profile");
     });
   });
@@ -267,4 +274,10 @@ module.exports = function(app, passport) {
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) return next();
   res.redirect("/");
+}
+
+// route middleware to ensure user is logged in
+function isLoggedInAPI(req, res, next) {
+  if (req.isAuthenticated()) return next();
+  res.sendStatus(401);
 }
