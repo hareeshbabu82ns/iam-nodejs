@@ -1,55 +1,62 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <title>Node Authentication</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <style>
-        body {
-            padding-top: 80px;
-        }
-    </style>
+    <% include ./partials/head %>
 </head>
 
-<body>
-    <div class="container">
-        <div class="col-sm-6 col-sm-offset-3">
+<body class="container">
+    <header>
+        <% include ./partials/header %>
+    </header>
 
-            <h1>
-                <span class="fa fa-sign-in"></span> Signup</h1>
+    <main>
+        <div class="ui middle aligned center aligned grid">
+            <div class="column" style="max-width: 450px;margin-top: 15px;">
 
-            <% if (message.length > 0) { %>
-                <div class="alert alert-danger">
-                    <%= message %>
-                </div>
-                <% } %>
+                <h1>
+                    <i class="lock icon"></i> Signup</h1>
 
-                    <!-- LOGIN FORM -->
-                    <form action="/signup" method="post">
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="text" class="form-control" name="email">
+                <% if (message.length > 0) { %>
+                    <div class="ui error message">
+                        <%= message %>
+                    </div>
+                    <% } %>
+
+                        <!-- LOGIN FORM -->
+                        <form action="/signup" method="post" class="ui large form">
+                            <div class="ui stacked segment">
+                                <div class="field">
+                                    <div class="ui left icon input">
+                                        <i class="user icon"></i>
+                                        <input type="text" name="email" placeholder="E-mail">
+                                    </div>
+                                </div>
+                                <div class="field">
+                                    <div class="ui left icon input">
+                                        <i class="lock icon"></i>
+                                        <input type="password" name="password" placeholder="Password">
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="ui fluid large teal submit button">Signup</button>
+                            </div>
+                        </form>
+
+
+                        <div class="ui message">
+                            Already have an account?
+                            <a href="/login">Login</a>
+                            </p>
+                            <p>Or go
+                                <a href="/">home</a>
                         </div>
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" class="form-control" name="password">
-                        </div>
 
-                        <button type="submit" class="btn btn-warning btn-lg">Signup</button>
-                    </form>
-
-                    <hr>
-
-                    <p>Already have an account?
-                        <a href="/login">Login</a>
-                    </p>
-                    <p>Or go
-                        <a href="/">home</a>.</p>
-
-
+            </div>
         </div>
-    </div>
+    </main>
+
+    <% include ./partials/footer %>
 </body>
 
 </html>

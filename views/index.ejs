@@ -1,23 +1,17 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <title>Node Authentication</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <style>
-        body {
-            padding-top: 80px;
-        }
-    </style>
+    <% include ./partials/head %>
 </head>
 
-<body>
-    <div class="container">
+<body class="container">
+    <header>
+        <% include ./partials/header %>
+    </header>
 
-        <div class="jumbotron text-center">
-            <h1>
-                <span class="fa fa-lock"></span> ClouDev IAM Server</h1>
+    <main>
+        <div class="ui raised very padded text container segment">
 
             <p>Login or Register with:</p>
 
@@ -33,7 +27,9 @@
                 <span class="fa fa-google-plus"></span> Google+</a>
         </div>
 
-    </div>
+    </main>
+
+    <% include ./partials/footer %>
 </body>
 
 </html>

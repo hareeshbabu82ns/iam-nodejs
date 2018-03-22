@@ -1,0 +1,48 @@
+<div class="ui attached stackable menu">
+  <div class="ui container">
+    <a class="item">
+      <i class="lock icon"></i> ClouDev Identity Manager
+    </a>
+    <!-- <a class="item">
+      <i class="grid layout icon"></i> Browse
+    </a>
+    <a class="item">
+      <i class="mail icon"></i> Messages
+    </a> -->
+
+    <div class="right item">
+
+      <% if(locals.user) { %>
+        <div class="ui simple dropdown">
+          User
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <a class="item" href="/profile">
+              <i class="user icon"></i> Profile</a>
+            <a class="item" href="/logout">
+              <i class="logout icon"></i> Logout</a>
+          </div>
+        </div>
+        <% } else { %>
+          <div class="ui simple dropdown">
+            Login
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <a class="item" href="/login">
+                <i class="user icon"></i> Local Login</a>
+              <a class="item" href="/signup">
+                <i class="user icon"></i> Local Signup</a>
+              <a class="item" href="/auth/facebook">
+                <i class="facebook icon"></i> Facebook</a>
+              <a class="item" href="/auth/twitter">
+                <i class="twitter icon"></i> Twitter</a>
+              <a class="item" href="/auth/google">
+                <i class="google icon"></i> Google</a>
+            </div>
+          </div>
+          <% } %>
+
+
+    </div>
+  </div>
+</div>
